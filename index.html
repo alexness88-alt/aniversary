@@ -87,11 +87,23 @@
         .question {
             font-size: 20px;
             line-height: 1.5;
-            margin: 25px 0;
+            margin: 10px 0;
         }
 
-        .options {
+        .optionsRow {
             display: grid;
+            gap: 10px;
+        }
+
+        .optionsGrid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .optionsColumn {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
             gap: 10px;
         }
 
@@ -167,6 +179,10 @@
             font-size: 12px;
             color: #777;
         }
+        
+        .questionblock {
+            margin-top: 50px;
+        }
 
         @keyframes appear {
             from {
@@ -214,7 +230,6 @@
     </div>
 
     <h1>SAK 10–2026</h1>
-    <h2>Arkivet for et usedvanlig langt samarbeid</h2>
 
     <div class="line"></div>
 
@@ -238,58 +253,90 @@
 
     <p>
         For å få tilgang til neste del av saken må du bevise
-        at du kjenner den andre involverte personen.
+        at du er detektiven som er tilordnet saken.
     </p>
 
-    <div class="question">
-        <strong>OPPGAVE 1</strong><br><br>
-
-        Hva er den mest sannsynlige forklaringen på at dere
-        fortsatt er sammen etter 10 år?
+    <div id="question1" class="questionblock">
+        <div class="question">
+            <strong>BEVISMATERIALE 1</strong><br>
+            Hva skjer når Alexander spør Van «Hvor skal vi reise neste gang?»
+        </div>
+        <div class="optionsRow">
+            <button onclick="answer(1, 'feedback1', 'question2', false)">
+                A. Alexander får et kort svar
+            </button>
+            <button onclick="answer(2, 'feedback1', 'question2', false)">
+                B. Alexander får noen forslag
+            </button>
+            <button onclick="answer(3, 'feedback1', 'question2', false)">
+                C. Alexander får en hel liste med forslag
+            </button>
+            <button onclick="answer(4, 'feedback1', 'question2', true)">
+                D. Alexander får en ferdig reiserute, hotellforslag og flytider før han rekker å angre
+            </button>
+        </div>
+        <div id="feedback1" class="feedback"></div>
     </div>
 
-    <div class="options">
-
-        <button onclick="answer(1)">
-            A. Utrolig god planlegging
-        </button>
-
-        <button onclick="answer(2)">
-            B. Gjensidig tålmodighet
-        </button>
-
-        <button onclick="answer(3)">
-            C. At ingen av dere har funnet ut hvordan man avslutter saken
-        </button>
-
-        <button onclick="answer(4)">
-            D. Ren og skjær flaks
-        </button>
-
+    <div id="question2" class="questionblock hidden">
+        <div class="question">
+            <strong>BEVISMATERIALE 2</strong><br>
+            Her er noen feriebilder. Hvilken skjedde først?
+        </div>
+        <div class="optionsGrid">
+            <button onclick="answer(1, 'feedback2', 'question3', false)">
+                A. <img src="a2017.jpg" style="width: 100%;">
+            </button>
+            <button onclick="answer(2, 'feedback2', 'question3', true)">
+                B. <img src="a2016.jpg" style="width: 100%;">
+            </button>
+            <button onclick="answer(3, 'feedback2', 'question3', false)">
+                C. <img src="a20182.jpg" style="width: 100%;">
+            </button>
+            <button onclick="answer(4, 'feedback2', 'question3', false)">
+                D. <img src="a20186.jpg" style="width: 100%;">
+            </button>
+        </div>
+        <div id="feedback2" class="feedback"></div>
     </div>
 
-    <div id="feedback" class="feedback"></div>
+    <div id="question3" class="questionblock hidden">
+        <div class="question">
+            <strong>BEVISMATERIALE 3</strong><br>
+            3 av disse reisene skjedde aldri. Hvilken er ekte?
+        </div>
+        <div class="optionsColumn">
+            <button onclick="answer(1, 'feedback3', 'reveal', true)">
+                A. <img src="b4.jpg" style="width: 100%;">
+            </button>
+            <button onclick="answer(2, 'feedback3', 'reveal', false)">
+                B. <img src="b1.jpg" style="width: 100%;">
+            </button>
+            <button onclick="answer(3, 'feedback3', 'reveal', false)">
+                C. <img src="b2.jpg" style="width: 100%;">
+            </button>
+            <button onclick="answer(4, 'feedback3', 'reveal', false)">
+                D. <img src="b3.jpg" style="width: 100%;">
+            </button>
+        </div>
+        
+        <div id="feedback3" class="feedback"></div>
+    </div>
 
     <div id="reveal" class="reveal hidden">
-
         <div class="reveal-title">
             KLASSIFISERT INFORMASJON — DEL 2
         </div>
-
         <div class="clue">
             Du har fått tilgang til neste spor.
         </div>
-
         <p>
             Den neste ledetråden befinner seg i noe som:
         </p>
-
         <p>
             • er rundt<br>
-            • kan sprette<br>
-            • kan kastes<br>
-            • og egentlig ikke har noe som helst med
-              jubileum å gjøre
+            • rosa<br>
+            • henger i et vindu<br>
         </p>
 
         <p>
@@ -299,30 +346,29 @@
         </p>
 
         <p class="small">
-            Arkivet anbefaler at du undersøker gjenstanden
-            nærmere før du går videre.
+            Ta ut stjernene og undersøk gjenstanden nærmere før du går videre.
         </p>
 
     </div>
 
     <div class="footer">
-        Arkivet 2016–2026 · Dokumentet skal behandles med kjærlighet
+        Arkivet 2016–2026
     </div>
 
 </div>
 
 <script>
 
-function answer(choice) {
+function answer(choice, feedbackid, revealblock, correctAnswer) {
 
-    const feedback = document.getElementById("feedback");
-    const reveal = document.getElementById("reveal");
+    const feedback = document.getElementById(feedbackid);
+    const reveal = document.getElementById(revealblock);
 
-    // Endre riktig svar her.
-    // Akkurat nå er alternativ C riktig.
-    const correctAnswer = 3;
+    // const correctAnswer = 3;
+    // choice === correctAnswer
 
-    if (choice === correctAnswer) {
+
+    if (correctAnswer) {
 
         feedback.textContent =
             "✓ Riktig. Arkivet godkjenner svaret.";
